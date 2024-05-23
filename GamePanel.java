@@ -14,11 +14,17 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenHeight = tileSize * maxScreenRow; // 576 px
 
     Thread gameThread;
-
+    KeyHandler keyH = new KeyHandler();
+    //domyślna pozycja gracza
+    int PlayerX = 100;
+    int PlayerY = 100;
+    int playerSpeed = 4;
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
+        this.addKeyListener(keyH);
+        this.setFocusable(true);
     }
     //stworzenie zegaru gry
     public void  startGameThread() {
@@ -39,6 +45,9 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void update() {
+        if(keyH.upPressed) {
+            PlayerX -= playerSpeed;
+        }
 
     }
     public void paintComponent(Graphics g) {
@@ -46,5 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D)g;
         g2.setColor(Color.white);
+        g2.fillRect(PlayerX, PlayerY, tileSize, tileSize);
+        g2.dispose();
     }
 }
