@@ -13,6 +13,8 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenWidth = tileSize * maxScreenCol; // 768 px
     final int screenHeight = tileSize * maxScreenRow; // 576 px
 
+    final  int FPS = 60;
+
     Thread gameThread;
     KeyHandler keyH = new KeyHandler();
     //domyślna pozycja gracza
@@ -34,28 +36,47 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
+        double drawInterval = 1000000000 / FPS;
+        double nextDrawTime = System.nanoTime() + drawInterval;
         while (gameThread != null) {
-            // System.out.println("Test");
+
 
             //aktualizacja innformacji o zdarzeniach
             update();
 
             //rysownaie ekranu
             repaint();
+
+
+
+            try {
+                double remainingTime = (nextDrawTime - System.nanoTime());
+                remainingTime = remainingTime/1000000;
+                if (remainingTime < 0){
+                    remainingTime = 0;
+                }
+                Thread.sleep((long) remainingTime);
+
+                nextDrawTime += drawInterval;
+
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
     public void update() {
         if(keyH.upPressed) {
-            PlayerX -= playerSpeed;
+            PlayerY -= playerSpeed;
         }
         if(keyH.downPressed) {
+            PlayerY += playerSpeed;
+        }
+        if(keyH.leftPressed) {
+            PlayerX -= playerSpeed;
+        }
+        if(keyH.rightPressed) {
             PlayerX += playerSpeed;
-        }
-        if(keyH.upPressed) {
-            PlayerX -= playerSpeed;
-        }
-        if(keyH.upPressed) {
-            PlayerX -= playerSpeed;
         }
 
     }
