@@ -48,6 +48,15 @@ public class GamePanel extends JPanel implements Runnable {
         if(keyH.upPressed) {
             PlayerX -= playerSpeed;
         }
+        if(keyH.downPressed) {
+            PlayerX += playerSpeed;
+        }
+        if(keyH.upPressed) {
+            PlayerX -= playerSpeed;
+        }
+        if(keyH.upPressed) {
+            PlayerX -= playerSpeed;
+        }
 
     }
     public void paintComponent(Graphics g) {
